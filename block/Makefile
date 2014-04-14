@@ -16,16 +16,9 @@ obj-$(CONFIG_IOSCHED_NOOP)	+= noop-iosched.o
 obj-$(CONFIG_IOSCHED_DEADLINE)	+= deadline-iosched.o
 obj-$(CONFIG_IOSCHED_CFQ)	+= cfq-iosched.o
 obj-$(CONFIG_IOSCHED_SIO)       += sio-iosched.o
-<<<<<<< HEAD
 obj-$(CONFIG_IOSCHED_TEST)	+= test-iosched.o
-=======
 obj-$(CONFIG_IOSCHED_FIOPS)     += fiops-iosched.o
 obj-$(CONFIG_IOSCHED_VR)	+= vr-iosched.o
 obj-$(CONFIG_IOSCHED_ZEN)	+= zen-iosched.o
-<<<<<<< HEAD
->>>>>>> 5e90e2b... Added Zen IO scheduler
-=======
->>>>>>> 5e90e2b... Added Zen IO scheduler
-
 obj-$(CONFIG_BLOCK_COMPAT)	+= compat_ioctl.o
 obj-$(CONFIG_BLK_DEV_INTEGRITY)	+= blk-integrity.o
