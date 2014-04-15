@@ -866,3 +866,4 @@ MODULE_AUTHOR ("Erasmux");
 MODULE_DESCRIPTION ("'cpufreq_smartass2' - A smart cpufreq governor");
 MODULE_LICENSE ("GPL");
 
+
