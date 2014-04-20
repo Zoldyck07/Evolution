@@ -20,6 +20,9 @@ obj-$(CONFIG_TOUCHSCREEN_BITSY)		+= h3600_ts_input.o
 obj-$(CONFIG_TOUCHSCREEN_BU21013)       += bu21013_ts.o
 obj-$(CONFIG_TOUCHSCREEN_CYPRESS_TMG)	+= cy8c_tmg_ts.o
 obj-$(CONFIG_TOUCHSCREEN_BU21013)	+= bu21013_ts.o
+obj-$(CONFIG_TOUCHSCREEN_CLEARPAD_RMI_DEV)	+= clearpad_rmi_dev.o
+obj-$(CONFIG_TOUCHSCREEN_CLEARPAD)	+= clearpad_core.o
+obj-$(CONFIG_TOUCHSCREEN_CLEARPAD_I2C)	+= clearpad_i2c.o
 obj-$(CONFIG_TOUCHSCREEN_CY8CTMG110)	+= cy8ctmg110_ts.o
 obj-$(CONFIG_TOUCHSCREEN_CYTTSP_CORE)	+= cyttsp_core.o
 obj-$(CONFIG_TOUCHSCREEN_CYTTSP_I2C)	+= cyttsp_i2c.o
@@ -83,5 +86,6 @@ obj-$(CONFIG_TOUCHSCREEN_LGE_COMMON)	+= lge_touch_core.o
 obj-$(CONFIG_TOUCHSCREEN_LGE_SYNAPTICS) += touch_synaptics.o
 obj-$(CONFIG_TOUCHSCREEN_LGE_SYNAPTICS) += touch_synaptics_ds4_fw_upgrade.o
 obj-$(CONFIG_TOUCHSCREEN_FT5X06)	+= ft5x06_ts.o
+
 obj-y += synaptics-rmi/
 
