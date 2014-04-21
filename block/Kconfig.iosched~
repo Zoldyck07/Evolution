@@ -128,7 +128,6 @@ config DEFAULT_IOSCHED
 	default "fiops" if DEFAULT_FIOPS
  	default "vr" if DEFAULT_VR
 	default "zen" if DEFAULT_ZEN
-	default "sioplus" if DEFAULT_SIOPLUS
 	default "noop" if DEFAULT_NOOP
 
 endmenu
