@@ -2623,6 +2623,12 @@ static struct msm_thermal_data msm_thermal_pdata = {
 	.limit_temp_degC = 60,
 	.temp_hysteresis_degC = 10,
 	.freq_step = 2,
+#ifdef CONFIG_INTELLI_THERMAL
+	.freq_control_mask = 0xf,
+	.core_limit_temp_degC = 80,
+	.core_temp_hysteresis_degC = 10,
+	.core_control_mask = 0xe,
+#endif
 };
 
 #ifdef CONFIG_MSM_FAKE_BATTERY
@@ -3618,10 +3624,10 @@ static void __init msm8930_cdp_init(void)
 		msm8930_pm8917_pdata_fixup();
 	if (meminfo_init(SYS_MEMORY, SZ_256M) < 0)
 		pr_err("meminfo_init() failed!\n");
-		
+
 	msm_smd_init();    //MTD-BSP-LC-SMEM-01 +
 	fih_get_host_version();    //MTD-BSP-LC-Get_Version-00 +
-	
+
 
 	platform_device_register(&msm_gpio_device);
 	msm_tsens_early_init(&msm_tsens_pdata);
