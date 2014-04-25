@@ -403,5 +403,5 @@ obj-y +=fih_proc_fs.o
 #//MTD-BSP-KC-HWID-00+]
 
 obj-$(CONFIG_MSM_CPU_PWRCTL) +=  msm_cpu_pwrctl.o
-
 obj-$(CONFIG_ARCH_RANDOM) += early_random.o
+obj-$(CONFIG_FORCE_FAST_CHARGE) += fastchg.o
