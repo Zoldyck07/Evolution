@@ -51,7 +51,6 @@
 #include <mach/msm_bus.h>
 #include <mach/rpm-regulator.h>
 
-
 #ifdef CONFIG_FORCE_FAST_CHARGE
 #include <linux/fastchg.h>
 #define USB_FASTCHG_LOAD 1000 /* uA */
@@ -1157,7 +1156,7 @@ static void msm_otg_notify_charger(struct msm_otg *motg, unsigned mA)
 
 	dev_info(motg->phy.dev, "Avail curr from USB = %u\n", mA);
 
-ifdef CONFIG_FORCE_FAST_CHARGE
+#ifdef CONFIG_FORCE_FAST_CHARGE
 	if (force_fast_charge == 1) {
 		// DooMLoRD: dont override charging current if available current is greater
 		if (mA >= USB_FASTCHG_LOAD){
