@@ -152,12 +152,6 @@ config CPU_FREQ_DEFAULT_GOV_BADASS
  
  	  If in doubt, say N.
 
-config CPU_FREQ_DEFAULT_GOV_INTERACTIVEX
-   	bool "interactiveX"
-   	select CPU_FREQ_GOV_INTERACTIVEX
-   	help
-     	  Use the CPUFreq governor 'interactiveX' as default.
-
 
 endchoice
 
@@ -302,6 +296,52 @@ config CPU_FREQ_GOV_BADASS
 
 	  If in doubt, say N.
 
+config CPU_FREQ_GOV_BADASS_2_PHASE
+	tristate "'2-phase' power-efficiency badass algorithm"
+	depends on CPU_FREQ_GOV_BADASS
+	help
+	  '2-phase' - This driver adds a new algo to save power
+
+config CPU_FREQ_GOV_BADASS_2_PHASE_FREQ
+	int "'2-phase' badass frequency"
+	default 918000
+	depends on CPU_FREQ_GOV_BADASS
+	depends on CPU_FREQ_GOV_BADASS_2_PHASE
+
+config CPU_FREQ_GOV_BADASS_3_PHASE
+	tristate "'3-phase' power-efficiency badass algorithm"
+	depends on CPU_FREQ_GOV_BADASS
+	depends on CPU_FREQ_GOV_BADASS_2_PHASE
+	help
+	  '3-phase' - This driver adds a new algo to save power
+
+config CPU_FREQ_GOV_BADASS_3_PHASE_FREQ
+	int "'3-phase' badass frequency"
+	default 1188000
+	depends on CPU_FREQ_GOV_BADASS
+	depends on CPU_FREQ_GOV_BADASS_2_PHASE
+	depends on CPU_FREQ_GOV_BADASS_3_PHASE
+
+config CPU_FREQ_GOV_BADASS_GPU_CONTROL
+	tristate "'gpu_control' power-efficiency badass algorithm"
+	depends on CPU_FREQ_GOV_BADASS
+	depends on CPU_FREQ_GOV_BADASS_2_PHASE
+	help
+	  'gpu_control' - This driver adds a new algo to save power
+
+config CPU_FREQ_GOV_BADASS_LOWBAT_POWERSAVE
+	tristate "'lowbat_powersave' power-efficiency badass algorithm"
+	depends on CPU_FREQ_GOV_BADASS
+	help
+	  'lowbat_powersave' - This driver adds a new algo to save power
+
+config CPU_FREQ_GOV_BADASS_ALLOW_BYPASS
+	tristate "Allows bypassing phases"
+	depends on CPU_FREQ_GOV_BADASS
+	depends on CPU_FREQ_GOV_BADASS_2_PHASE
+	help
+	  'allow_bypass' - This driver adds a bypass to the phases
+
 
 config CPU_FREQ_GOV_INTELLIACTIVE
  	tristate "'intelliactive' cpufreq policy governor"
@@ -319,14 +359,6 @@ config CPU_FREQ_GOV_INTELLIACTIVE
  	  For details, take a look at linux/Documentation/cpu-freq.
  
  	  If in doubt, say N.
-
-config CPU_FREQ_GOV_INTERACTIVEX
- 	tristate "'interactiveX' cpufreq governor"
- 	depends on CPU_FREQ
- 	help
- 	   'interactiveX' - interactive governor with early suspend support added.
- 	    This governor uses hotplug to shutdown and start up cpu1 when suspended.
- 	    If in doubt, say N.
 
 menu "x86 CPU frequency scaling drivers"
 depends on X86
