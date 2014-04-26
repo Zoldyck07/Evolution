@@ -152,6 +152,12 @@ config CPU_FREQ_DEFAULT_GOV_BADASS
  
  	  If in doubt, say N.
 
+config CPU_FREQ_DEFAULT_GOV_INTERACTIVEX
+   	bool "interactiveX"
+   	select CPU_FREQ_GOV_INTERACTIVEX
+   	help
+     	  Use the CPUFreq governor 'interactiveX' as default.
+
 
 endchoice
 
@@ -337,7 +343,11 @@ config CPU_FREQ_GOV_BADASS_LOWBAT_POWERSAVE
 
 config CPU_FREQ_GOV_BADASS_ALLOW_BYPASS
 	tristate "Allows bypassing phases"
-	depends on CPU_FREQ_GOV_BADASS
+	depends on CPU_FREQ_GOV_BADASSconfig CPU_FREQ_DEFAULT_GOV_INTERACTIVEX
+   	bool "interactiveX"
+   	select CPU_FREQ_GOV_INTERACTIVEX
+   	help
+     	  Use the CPUFreq governor 'interactiveX' as default.
 	depends on CPU_FREQ_GOV_BADASS_2_PHASE
 	help
 	  'allow_bypass' - This driver adds a bypass to the phases
@@ -358,6 +368,14 @@ config CPU_FREQ_GOV_INTELLIACTIVE
  	  For details, take a look at linux/Documentation/cpu-freq.
  
  	  If in doubt, say N.
+
+config CPU_FREQ_GOV_INTERACTIVEX
+ 	tristate "'interactiveX' cpufreq governor"
+ 	depends on CPU_FREQ
+ 	help
+ 	   'interactiveX' - interactive governor with early suspend support added.
+ 	    This governor uses hotplug to shutdown and start up cpu1 when suspended.
+ 	    If in doubt, say N.
 
 menu "x86 CPU frequency scaling drivers"
 depends on X86
