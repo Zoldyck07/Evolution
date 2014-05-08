@@ -50,6 +50,12 @@ choice
 	  This option sets which CPUFreq governor shall be loaded at
 	  startup. If in doubt, select 'performance'.
 
+config CPU_FREQ_DEFAULT_GOV_LIONHEART
+ 	bool "lionheart"
+ 	select CPU_FREQ_GOV_LIONHEART
+ 	help
+ 	 Use the CPUFreq governor 'lionheart' as default.
+
 config CPU_FREQ_DEFAULT_GOV_INTELLIDEMAND
  	bool "intellidemand"
  	select CPU_FREQ_GOV_INTELLIDEMAND
@@ -154,6 +160,14 @@ config CPU_FREQ_DEFAULT_GOV_BADASS
 
 
 endchoice
+
+config CPU_FREQ_GOV_LIONHEART
+ 	tristate "lionheart"
+ 	depends on CPU_FREQ
+ 	help
+ 	 Use the CPUFreq governor 'lionheart' as default.
+ 
+ 	  If in doubt, say N.
 
 config CPU_FREQ_GOV_PERFORMANCE
 	tristate "'performance' governor"
