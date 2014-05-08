@@ -501,9 +501,9 @@ msm8930_pm8917_gpio_regulator_pdata[] __devinitdata = {
 /* SAW regulator constraints */
 struct regulator_init_data msm8930_pm8917_saw_regulator_core0_pdata =
 	/*	      ID  vreg_name	       min_uV   max_uV */
-	SAW_VREG_INIT(S5, "8917_s5",	       500000, 1300000);
+	SAW_VREG_INIT(S5, "8917_s5",	       850000, 1300000);
 struct regulator_init_data msm8930_pm8917_saw_regulator_core1_pdata =
-	SAW_VREG_INIT(S6, "8917_s6",	       500000, 1300000);
+	SAW_VREG_INIT(S6, "8917_s6",	       850000, 1300000);
 
 /* PM8917 regulator constraints */
 struct pm8xxx_regulator_platform_data
