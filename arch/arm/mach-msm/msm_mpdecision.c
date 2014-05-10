@@ -689,18 +689,6 @@ static int __devexit msm_mpd_remove(struct platform_device *pdev)
 	return 0;
 }
 
-define_one_global_ro(times_cpus_unplugged);
- 
-static struct attribute *msm_mpdec_stats_attributes[] = {
-	&time_cpus_on.attr,
-	&times_cpus_hotplugged.attr,
-	&times_cpus_unplugged.attr,
-	NULL
-};
-
-=======
->>>>>>> parent of bc289b5...  mach-msm: added MP-Decision by @showp1984
-
 static struct platform_driver msm_mpd_driver = {
 	.probe	= msm_mpd_probe,
 	.remove	= __devexit_p(msm_mpd_remove),
@@ -709,44 +697,6 @@ static struct platform_driver msm_mpd_driver = {
 		.owner	= THIS_MODULE,
 	},
 };
-
-/**************************** SYSFS END ****************************/
-
-static int __init msm_mpdec_init(void) {
-	int cpu, rc, err = 0;
-#ifdef CONFIG_MSM_MPDEC_INPUTBOOST_CPUMIN
-	int i;
-	unsigned long int boost_freq = 0;
-#endif
-
-	mpdec_suspended = false;
-	for_each_possible_cpu(cpu) {
-		mutex_init(&(per_cpu(msm_mpdec_cpudata, cpu).hotplug_mutex));
-		per_cpu(msm_mpdec_cpudata, cpu).online = true;
-		per_cpu(msm_mpdec_cpudata, cpu).on_time_total = 0;
-		per_cpu(msm_mpdec_cpudata, cpu).times_cpu_unplugged = 0;
-		per_cpu(msm_mpdec_cpudata, cpu).times_cpu_hotplugged = 0;
-#ifdef CONFIG_MSM_MPDEC_INPUTBOOST_CPUMIN 
-		per_cpu(msm_mpdec_cpudata, cpu).norm_min_freq = CONFIG_MSM_CPU_FREQ_MIN;
-		switch (cpu) {
-			case 0:
-			case 1:
-			case 2:
-				boost_freq = msm_mpdec_tuners_ins.boost_freq[cpu];
-				break;
-			default:
-				boost_freq = msm_mpdec_tuners_ins.boost_freq[3];
-				break;
-		}
-		per_cpu(msm_mpdec_cpudata, cpu).boost_freq = boost_freq;
-		per_cpu(msm_mpdec_cpudata, cpu).is_boosted = false;
-		per_cpu(msm_mpdec_cpudata, cpu).revib_wq_running = false;
-		per_cpu(msm_mpdec_cpudata, cpu).boost_until = 0;
-		mutex_init(&(per_cpu(msm_mpdec_cpudata, cpu).boost_mutex));
-		mutex_init(&(per_cpu(msm_mpdec_cpudata, cpu).unboost_mutex));
-#endif
-	}
-
 
 static int __init msm_mpdecision_init(void)
 {
