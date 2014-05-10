@@ -1097,7 +1097,7 @@ static ssize_t show_times_cpus_unplugged(struct kobject *a, struct attribute *b,
 	return len;
 }
 define_one_global_ro(times_cpus_unplugged);
-
+ 
 static struct attribute *msm_mpdec_stats_attributes[] = {
 	&time_cpus_on.attr,
 	&times_cpus_hotplugged.attr,
@@ -1126,7 +1126,7 @@ static int __init msm_mpdec_init(void) {
 		per_cpu(msm_mpdec_cpudata, cpu).on_time_total = 0;
 		per_cpu(msm_mpdec_cpudata, cpu).times_cpu_unplugged = 0;
 		per_cpu(msm_mpdec_cpudata, cpu).times_cpu_hotplugged = 0;
-#ifdef CONFIG_MSM_MPDEC_INPUTBOOST_CPUMIN
+#ifdef CONFIG_MSM_MPDEC_INPUTBOOST_CPUMIN 
 		per_cpu(msm_mpdec_cpudata, cpu).norm_min_freq = CONFIG_MSM_CPU_FREQ_MIN;
 		switch (cpu) {
 			case 0:
