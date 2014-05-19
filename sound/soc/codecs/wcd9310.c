@@ -4064,6 +4064,11 @@ unsigned int tabla_read(struct snd_soc_codec *codec,
 	return val;
 }
 
+
+#ifdef CONFIG_SOUND_CONTROL_HAX_GPL
+EXPORT_SYMBOL(tabla_read);
+#endif
+
 static s16 tabla_get_current_v_ins(struct tabla_priv *tabla, bool hu)
 {
 	s16 v_ins;
@@ -8494,6 +8499,8 @@ static const struct file_operations codec_mbhc_debug_ops = {
 #ifdef CONFIG_SOUND_CONTROL_HAX_GPL
 struct snd_kcontrol_new *gpl_faux_snd_controls_ptr =
 		(struct snd_kcontrol_new *)tabla_snd_controls;
+struct snd_soc_codec *fauxsound_codec_ptr;
+EXPORT_SYMBOL(fauxsound_codec_ptr);
 #endif
 static int tabla_codec_probe(struct snd_soc_codec *codec)
 {
@@ -8504,6 +8511,10 @@ static int tabla_codec_probe(struct snd_soc_codec *codec)
 	int i;
 	int ch_cnt;
 
+#ifdef CONFIG_SOUND_CONTROL_HAX_GPL
+	pr_info("tabla codec probe...\n");
+	fauxsound_codec_ptr = codec;
+#endif
 	codec->control_data = dev_get_drvdata(codec->dev->parent);
 	control = codec->control_data;
 
