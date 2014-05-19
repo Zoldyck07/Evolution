@@ -4017,7 +4017,10 @@ static int tabla_volatile(struct snd_soc_codec *ssc, unsigned int reg)
 }
 
 #define TABLA_FORMATS (SNDRV_PCM_FMTBIT_S16_LE)
-static int tabla_write(struct snd_soc_codec *codec, unsigned int reg,
+#ifndef CONFIG_SOUND_CONTROL_HAX_GPL
+static
+#endif
+int tabla_write(struct snd_soc_codec *codec, unsigned int reg,
 	unsigned int value)
 {
 	int ret;
@@ -4032,7 +4035,14 @@ static int tabla_write(struct snd_soc_codec *codec, unsigned int reg,
 
 	return wcd9xxx_reg_write(codec->control_data, reg, value);
 }
-static unsigned int tabla_read(struct snd_soc_codec *codec,
+#ifdef CONFIG_SOUND_CONTROL_HAX_GPL
+EXPORT_SYMBOL(tabla_write);
+#endif
+
+#ifndef CONFIG_SOUND_CONTROL_HAX_GPL
+static
+#endif
+unsigned int tabla_read(struct snd_soc_codec *codec,
 				unsigned int reg)
 {
 	unsigned int val;
@@ -8481,6 +8491,10 @@ static const struct file_operations codec_mbhc_debug_ops = {
 };
 #endif
 
+#ifdef CONFIG_SOUND_CONTROL_HAX_GPL
+struct snd_kcontrol_new *gpl_faux_snd_controls_ptr =
+		(struct snd_kcontrol_new *)tabla_snd_controls;
+#endif
 static int tabla_codec_probe(struct snd_soc_codec *codec)
 {
 	struct wcd9xxx *control;
