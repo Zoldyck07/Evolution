@@ -4516,7 +4516,7 @@ WDI_FindAssocSessionByIdx
  @see
  @return 
 */
-void 
+WPT_INLINE void 
 WDI_DS_AssignDatapathContext 
 (
   void *pContext, 
@@ -4532,7 +4532,7 @@ WDI_DS_AssignDatapathContext
  @see
  @return pointer to Datapath context
 */
-void * 
+WPT_INLINE void * 
 WDI_DS_GetDatapathContext 
 (
   void *pContext
@@ -4548,7 +4548,7 @@ WDI_DS_GetDatapathContext
  @see
  @return void
 */
-void  
+WPT_INLINE void  
 WDT_AssignTransportDriverContext 
 (
   void *pContext, 
@@ -4564,7 +4564,7 @@ WDT_AssignTransportDriverContext
  @see
  @return pointer to datapath context 
 */
-void * 
+WPT_INLINE void * 
 WDT_GetTransportDriverContext 
 (
   void *pContext
