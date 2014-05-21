@@ -6,7 +6,7 @@ echo " Znxt Build Script"
 echo "  Znxt TEAM " 
 echo " Copyright "
 make ARCH=arm CROSS_COMPILE=$TOOLCHAIN- Znxt_defconfig
-make ARCH=arm CROSS_COMPILE=$TOOLCHAIN- -j2
+make ARCH=arm CROSS_COMPILE=$TOOLCHAIN- -j4
 if [ -a $KERNEL_DIR/arch/arm/boot/zImage ];
 then
 echo "Copying modules"
