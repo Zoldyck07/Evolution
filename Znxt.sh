@@ -1,7 +1,7 @@
 #!/bin/bash
-TOOLCHAIN="/home/zoldyck/android/4.3/toolchains/arm-eabi-linaro-4.6.2/bin/arm-eabi"
-MODULES_DIR="/home/zoldyck/android/4.3/modules"
-KERNEL_DIR="/home/zoldyck/android/4.3"
+TOOLCHAIN="/home/zoldyck/android/Evolution/toolchains/arm-eabi-linaro-4.6.2/bin/arm-eabi"
+MODULES_DIR="/home/zoldyck/android/Evolution/modules"
+KERNEL_DIR="/home/zoldyck/android/Evolution"
 echo " Znxt Build Script"
 echo "  Znxt TEAM " 
 echo " Copyright "
