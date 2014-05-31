@@ -1633,12 +1633,6 @@ config MSM_CPU_FREQ_MIN
 	depends on MSM_CPU_FREQ_SET_MIN_MAX
 	default 245760
 
-config INTELLI_PLUG
- 	bool "Enable intelli-plug cpu hotplug driver"
- 	default n
- 	help
- 	  Generic Intelli-plug cpu hotplug driver for ARM SOCs
-
 config INTELLI_PLUG_DUAL
 	bool "Enable dual-core mode for intelliplug"
 	depends on INTELLI_PLUG
