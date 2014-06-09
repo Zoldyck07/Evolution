@@ -2127,20 +2127,29 @@ void msm_fb_wait_for_fence(struct msm_fb_data_type *mfd)
 	}
 	mfd->acq_fen_cnt = 0;
 }
+/* MM-VH-DISPLAY*[ */
 int msm_fb_signal_timeline(struct msm_fb_data_type *mfd)
 {
-	mutex_lock(&mfd->sync_mutex);
-	if (mfd->timeline && !list_empty((const struct list_head *)
+	int retVal = -1;
+	if (NULL != mfd){
+		retVal = 0;
+		mutex_lock(&mfd->sync_mutex);
+		if (mfd->timeline && !list_empty((const struct list_head *)
 				(&(mfd->timeline->obj.active_list_head)))) {
-		sw_sync_timeline_inc(mfd->timeline, 1);
-		mfd->timeline_value++;
+			sw_sync_timeline_inc(mfd->timeline, 1);
+			mfd->timeline_value++;
+		}
+		mfd->last_rel_fence = mfd->cur_rel_fence;
+		mfd->cur_rel_fence = 0;
+		mutex_unlock(&mfd->sync_mutex);
 	}
-	mfd->last_rel_fence = mfd->cur_rel_fence;
-	mfd->cur_rel_fence = 0;
-	mutex_unlock(&mfd->sync_mutex);
-	return 0;
-}
 
+	if(retVal)
+		pr_err("%s: msm_fb_signal_timeline failed", __func__);
+
+	return retVal;
+}
+/* MM-VH-DISPLAY*] */
 void msm_fb_release_timeline(struct msm_fb_data_type *mfd)
 {
 	mutex_lock(&mfd->sync_mutex);
