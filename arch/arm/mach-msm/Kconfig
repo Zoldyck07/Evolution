@@ -167,7 +167,6 @@ config ARCH_MSM8960
 	select MULTI_IRQ_HANDLER
 	select MSM_PM8X60 if PM
 	select HOLES_IN_ZONE if SPARSEMEM
-	select MSM_RUN_QUEUE_STATS
 	select ARM_HAS_SG_CHAIN
 	select MSM_KRAIT_WFE_FIXUP
 	select MSM_IOMMU_GPU_SYNC
@@ -259,7 +258,7 @@ config ARCH_MSM8974
 	select MSM_AUDIO_QDSP6V2 if SND_SOC
 	select MSM_RPM_REGULATOR_SMD
 	select ARM_HAS_SG_CHAIN
-	select MSM_RUN_QUEUE_STATS
+	
 
 config ARCH_MPQ8092
 	bool "MPQ8092"
@@ -1634,6 +1633,14 @@ config MSM_CPU_FREQ_MIN
 	depends on MSM_CPU_FREQ_SET_MIN_MAX
 	default 245760
 
+config INTELLI_PLUG_DUAL
+	bool "Enable dual-core mode for intelliplug"
+	depends on INTELLI_PLUG
+	default n
+	help
+	  Special dual-core mode for intelli-plug
+
+
 endif # CPU_FREQ_MSM
 
 config MSM_AVS_HW
@@ -2646,5 +2653,18 @@ config MSM_CPU_PWRCTL
 	  Droop detector mechanism can adversely affect krait plls during
 	  stand alone power collapse operation. Selecting this option
 	  ensures that they are always off.
+
+config FORCE_FAST_CHARGE
+	bool "Force AC charge mode at will"
+	default y
+ 	help
+ 		A simple sysfs interface to force adapters that
+ 		are detected as USB to charge as AC.
+
+config MSM_SLEEPER
+ 	bool "Limit max frequency while screen is off"
+ 	default y
+ 	help
+ 	  Limit max frequency while screen is off 
 
 endif
