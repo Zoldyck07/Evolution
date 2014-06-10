@@ -1586,15 +1586,6 @@ config HOTPLUG_CPU
 	  Say Y here to experiment with turning CPUs off and on.  CPUs
 	  can be controlled through /sys/devices/system/cpu.
 
-config ARM_AUTO_HOTPLUG
- 	bool "Auto hotplugging based on scheduler runqueue load for ARM SoCs"
- 	depends on HOTPLUG_CPU
- 	depends on ARCH_EXYNOS4 || ARCH_TEGRA || ARCH_MSM_SCORPIONMP || \
- 	ARCH_MSM_KRAITMP
- 	depends on !TEGRA_AUTO_HOTPLUG && !CPU_FREQ_GOV_PEGASUSQ && \
- 	!CPU_FREQ_GOV_HOTPLUG && !MSM_MPDEC
- 	default y
-
 config LOCAL_TIMERS
 	bool "Use local timer interrupts"
 	depends on SMP
@@ -2309,13 +2300,6 @@ config NEON
 	help
 	  Say Y to include support code for NEON, the ARMv7 Advanced SIMD
 	  Extension.
-
-
-config KERNEL_MODE_NEON
-	bool "Support for NEON in kernel mode"
-	depends on NEON && AEABI
-	help
-	  Say Y to include support for NEON in kernel mode.
 
 endmenu
 

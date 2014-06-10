@@ -814,7 +814,9 @@ unsigned long apply_slack(struct timer_list *timer, unsigned long expires)
 
 	bit = find_last_bit(&mask, BITS_PER_LONG);
 
-	expires_limit = (expires_limit >> bit) << bit;
+	mask = (1 << bit) - 1;
+
+	expires_limit = expires_limit & ~(mask);
 
 	return expires_limit;
 }
@@ -1852,7 +1854,7 @@ static void do_nsleep(unsigned int nsecs, struct hrtimer_sleeper *sleeper, int s
 void hr_msleep(unsigned int msecs)
 {
 	struct hrtimer_sleeper sleeper;
-
+	
 	do_nsleep(msecs * NSEC_PER_MSEC, &sleeper, 0);
 }
 
@@ -1868,7 +1870,7 @@ unsigned long hr_msleep_interruptible(unsigned int msecs)
 	ktime_t left;
 
 	do_nsleep(msecs * NSEC_PER_MSEC, &sleeper, 1);
-
+	
 	if (!sleeper.task)
 		return 0;
 	left = ktime_sub(sleeper.timer.node.expires, sleeper.timer.base->get_time());

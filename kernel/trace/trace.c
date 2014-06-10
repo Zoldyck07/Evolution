@@ -362,7 +362,7 @@ static DECLARE_DELAYED_WORK(wakeup_work, wakeup_work_handler);
 void tracing_on(void)
 {
 	if (global_trace.buffer)
-		ring_buffer_record_off(global_trace.buffer);
+		ring_buffer_record_on(global_trace.buffer);
 	/*
 	 * This flag is only looked at when buffers haven't been
 	 * allocated yet. We don't really care about the race

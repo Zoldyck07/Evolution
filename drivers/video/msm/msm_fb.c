@@ -60,7 +60,6 @@
 static unsigned char *fbram;
 static unsigned char *fbram_phys;
 static int fbram_size;
-static bool align_buffer = true;
 static boolean bf_supported;
 /* Set backlight on resume after 50 ms after first
  * pan display on the panel. This is to avoid panel specific
@@ -189,21 +188,21 @@ static void msm_fb_set_bl_brightness(struct led_classdev *led_cdev,
 					enum led_brightness value)
 {
 	struct msm_fb_data_type *mfd = dev_get_drvdata(led_cdev->dev->parent);
-	int bl_lvl;
+	int bl_lvl = value;
 
 	#ifndef CONFIG_FB_BACKLIGHT
 	char bkl_lut[MAX_BACKLIGHT_BRIGHTNESS + 1] = {
-		0, 1, 1, 2, 2, 3, 3, 4, 4, 5,
-		5, 6, 6, 7, 7, 8, 8, 9, 9, 10,
-		10, 11, 11, 11, 12, 12, 12, 13, 13, 13,
-		14, 14, 14, 15, 15, 15, 16, 16, 16, 17,
-		17, 17, 18, 18, 18, 19, 19, 19, 20, 20,
-		20, 21, 21, 21, 22, 22, 22, 23, 23, 23,
-		24, 24, 24, 25, 25, 25, 26, 26, 26, 27,
-		27, 28, 28, 28, 29, 29, 29, 30, 30, 31,
-		31, 32, 32, 33, 33, 34, 34, 35, 35, 36,
-		36, 37, 37, 38, 38, 39, 39, 40, 40, 41,
-		41, 41, 42, 42, 43, 43, 44, 44, 45, 45,
+		0, 27, 27, 27, 27, 27, 27, 27, 27, 27,
+		27, 27, 27, 27, 27, 27, 27, 27, 27, 27,
+		27, 27, 27, 27, 27, 28, 28, 28, 28, 28,
+		28, 28, 28, 28, 28, 28, 28, 28, 28, 28,
+		28, 28, 29, 29, 29, 29, 29, 29, 29, 29,
+		30, 30, 30, 30, 30, 30, 30, 30, 30, 31,
+		31, 31, 31, 31, 32, 32, 33, 33, 33, 33,
+		33, 33, 33, 34, 34, 34, 34, 34, 34, 35,
+		35, 36, 36, 36, 36, 37, 37, 37, 37, 37,
+		38, 38, 38, 39, 39, 40, 40, 40, 40, 41,
+		41, 42, 42, 43, 43, 43, 44, 44, 45, 45,
 		46, 46, 47, 47, 48, 48, 49, 49, 50, 50,
 		51, 52, 52, 53, 53, 54, 54, 55, 55, 56,
 		57, 58, 58, 59, 60, 60, 61, 62, 63, 63,
@@ -222,6 +221,12 @@ static void msm_fb_set_bl_brightness(struct led_classdev *led_cdev,
 	};
 
 	bl_lvl = bkl_lut[value];
+
+	if(bl_lvl > MAX_BACKLIGHT_BRIGHTNESS){
+		bl_lvl = MAX_BACKLIGHT_BRIGHTNESS;
+	}else if(bl_lvl < 0){
+		bl_lvl = 0;
+	}
 
 	#else
 	if (value > MAX_BACKLIGHT_BRIGHTNESS)
@@ -1223,11 +1228,6 @@ int calc_fb_offset(struct msm_fb_data_type *mfd, struct fb_info *fbi, int bpp)
 	struct msm_panel_info *panel_info = &mfd->panel_info;
 	int remainder, yres, offset;
 
-        if (!align_buffer)
-         {
-         return fbi->var.xoffset * bpp + fbi->var.yoffset * fbi->fix.line_length;
-         }
-
 	if (panel_info->mode2_yres != 0) {
 		yres = panel_info->mode2_yres;
 		remainder = (fbi->fix.line_length*yres) & (PAGE_SIZE - 1);
@@ -2127,20 +2127,29 @@ void msm_fb_wait_for_fence(struct msm_fb_data_type *mfd)
 	}
 	mfd->acq_fen_cnt = 0;
 }
+/* MM-VH-DISPLAY*[ */
 int msm_fb_signal_timeline(struct msm_fb_data_type *mfd)
 {
-	mutex_lock(&mfd->sync_mutex);
-	if (mfd->timeline && !list_empty((const struct list_head *)
+	int retVal = -1;
+	if (NULL != mfd){
+		retVal = 0;
+		mutex_lock(&mfd->sync_mutex);
+		if (mfd->timeline && !list_empty((const struct list_head *)
 				(&(mfd->timeline->obj.active_list_head)))) {
-		sw_sync_timeline_inc(mfd->timeline, 1);
-		mfd->timeline_value++;
+			sw_sync_timeline_inc(mfd->timeline, 1);
+			mfd->timeline_value++;
+		}
+		mfd->last_rel_fence = mfd->cur_rel_fence;
+		mfd->cur_rel_fence = 0;
+		mutex_unlock(&mfd->sync_mutex);
 	}
-	mfd->last_rel_fence = mfd->cur_rel_fence;
-	mfd->cur_rel_fence = 0;
-	mutex_unlock(&mfd->sync_mutex);
-	return 0;
-}
 
+	if(retVal)
+		pr_err("%s: msm_fb_signal_timeline failed", __func__);
+
+	return retVal;
+}
+/* MM-VH-DISPLAY*] */
 void msm_fb_release_timeline(struct msm_fb_data_type *mfd)
 {
 	mutex_lock(&mfd->sync_mutex);
@@ -4710,6 +4719,5 @@ int msm_fb_v4l2_update(void *par,
 #endif
 }
 EXPORT_SYMBOL(msm_fb_v4l2_update);
-module_param(align_buffer, bool, 0644);
 
 module_init(msm_fb_init);
